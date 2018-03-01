@@ -1,0 +1,24 @@
+<section class="hero is-info is-bold">
+  <div class="hero-body">
+      <h2 class="title is-1">
+        CryptoProfs
+      </h2>
+      <h3 class="title">
+        Faculty & Staff of the College of ETH
+      </h3>
+  </div>
+</section>
+
+<br>
+<div class="container">
+
+	<!-- <img src="assets/prof/0.png" /> -->
+	<a *ngFor="let i of DisplayProfs" href="/prof/{{i}}" >
+		<img src="assets/prof/{{i}}.png" />
+	</a>
+  
+<br>
+
+  <a (click)="LoadMore()">Load More!</a>
+
+</div>

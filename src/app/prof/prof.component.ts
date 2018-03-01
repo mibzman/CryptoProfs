@@ -1,20 +1,21 @@
 import { Component, HostListener, NgZone } from '@angular/core';
 
-import {Web3Service, MetaCoinService} from '../services/services'
+import {Web3Service, MetaCoinService} from '../../services/services'
 
-import { canBeNumber } from '../util/validation';
+import { canBeNumber } from '../../util/validation';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html'
+  selector: 'app-prof',
+  templateUrl: './prof.component.html',
+  styleUrls: ['./prof.component.css']
 })
-export class AppComponent {
+export class ProfComponent{
 
   // TODO add proper types these variables
   account: any;
   accounts: any;
 
-  balance: number;
+  balance: any = '?';
   sendingAmount: number;
   recipientAddress: string;
   status: string;
@@ -22,8 +23,8 @@ export class AppComponent {
 
   constructor(
     private _ngZone: NgZone,
-    private web3Service: Web3Service,
-    private metaCoinService: MetaCoinService,
+    private Web3Service: Web3Service,
+    private MetaCoinService: MetaCoinService,
     ) {
     this.onReady();
   }
@@ -31,7 +32,7 @@ export class AppComponent {
   onReady = () => {
 
     // Get the initial account balance so it can be displayed.
-    this.web3Service.getAccounts().subscribe(accs => {
+    this.Web3Service.GetAccounts().subscribe(accs => {
       this.accounts = accs;
       this.account = this.accounts[0];
 
@@ -44,7 +45,7 @@ export class AppComponent {
   };
 
   refreshBalance = () => {
-    this.metaCoinService.getBalance(this.account)
+    this.MetaCoinService.GetBalance(this.account)
       .subscribe(value => {
         this.balance = value
       }, e => {this.setStatus('Error getting balance; see log.')})
@@ -57,7 +58,7 @@ export class AppComponent {
   sendCoin = () => {
     this.setStatus('Initiating transaction... (please wait)');
 
-    this.metaCoinService.sendCoin(this.account, this.recipientAddress, this.sendingAmount)
+    this.MetaCoinService.SendCoin(this.account, this.recipientAddress, this.sendingAmount)
       .subscribe(() =>{
         this.setStatus('Transaction complete!');
         this.refreshBalance();
