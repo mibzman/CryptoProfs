@@ -6,7 +6,7 @@ import { ProfComponent } from './prof/prof.component'
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'prof', component: ProfComponent, pathMatch: 'full' },
+  { path: 'prof/:ProfID', component: ProfComponent, pathMatch: 'full' },
   { path: '**', redirectTo: '' }
 ];
 

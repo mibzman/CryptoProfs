@@ -1,12 +1,42 @@
-<h2 class="title">
-  You have <span class="is-medium has-underline">{{balance}}</span> META
-</h2>
+<div class="container">
+  <h2 class="title">
+    Prof #{{ProfID}}
+  </h2>
+</div>
 
-<h1 class="title is-4 is-info help">{{status}}</h1>
+<br>
 
-send some meta:
+<div class="columns">
+  <div class="column is-1">
+  </div>
+  <div class="column">
+    <img height="200" width="200" src="assets/prof/{{ProfID}}.png" />
+  </div>
+  <div class="column">
+    <div class="row">
+      Prof Employer: {{ProfEmployer}}
+    </div>
+    <div class="row">
+      <h2>
+        Offers:
+        <br>
 
-<form #coinForm="ngForm">
+        <hr>
+        <input class="input is-primary" type="number" placeholder="Your Offer (ETH)" >
+
+        <a class="button is-primary" (click)="Offer()">Make An Offer</a>
+      </h2>
+    </div>
+  </div>
+  <div class="column">
+  </div>
+</div>
+
+
+
+<!-- <h1 class="title is-4 is-info help">{{status}}</h1> -->
+
+<!-- <form #coinForm="ngForm">
   <div class="field">
     <label class="label">Amount</label>
     <p class="control">
@@ -70,4 +100,4 @@ send some meta:
       </button>
     </p>
   </div>
-</form>
+</form> -->

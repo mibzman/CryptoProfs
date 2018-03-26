@@ -13,12 +13,15 @@
 <div class="container">
 
 	<!-- <img src="assets/prof/0.png" /> -->
-	<a *ngFor="let i of DisplayProfs" href="/prof/{{i}}" >
-		<img src="assets/prof/{{i}}.png" />
+	<a *ngFor="let ProfID of DisplayProfs" href="/prof/{{ProfID}}" >
+		<img src="assets/prof/{{ProfID}}.png" />
 	</a>
   
 <br>
+<br>
 
   <a (click)="LoadMore()">Load More!</a>
-
 </div>
+
+<br/>
+<br/>

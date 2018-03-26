@@ -1,6 +1,8 @@
 import { Component, HostListener, NgZone } from '@angular/core';
-
-import {Web3Service, MetaCoinService} from '../../services/services'
+import { ActivatedRoute } from '@angular/router';
+import {
+  CryptoProfService
+} from '../../services/services'
 
 import { canBeNumber } from '../../util/validation';
 
@@ -12,8 +14,6 @@ import { canBeNumber } from '../../util/validation';
 export class ProfComponent{
 
   // TODO add proper types these variables
-  account: any;
-  accounts: any;
 
   balance: any = '?';
   sendingAmount: number;
@@ -21,47 +21,49 @@ export class ProfComponent{
   status: string;
   canBeNumber = canBeNumber;
 
+  ProfID: number;
+  BidAmount: number;
+
   constructor(
     private _ngZone: NgZone,
-    private Web3Service: Web3Service,
-    private MetaCoinService: MetaCoinService,
+    private CryptoProfService: CryptoProfService,
+    private ARouteSer: ActivatedRoute,
     ) {
-    this.onReady();
   }
 
-  onReady = () => {
+  ngOnInit() {
+    this.ARouteSer.params.subscribe(params => {
+       this.ProfID = params['ProfID'];
+    });
+  }
 
-    // Get the initial account balance so it can be displayed.
-    this.Web3Service.GetAccounts().subscribe(accs => {
-      this.accounts = accs;
-      this.account = this.accounts[0];
+  Offer() {
+    this.CryptoProfService.MakeOffer(this.ProfID, this.BidAmount).subscribe(() =>{
 
-      // This is run from window:load and ZoneJS is not aware of it we
-      // need to use _ngZone.run() so that the UI updates on promise resolution
-      this._ngZone.run(() =>
-        this.refreshBalance()
-      );
-    }, err => alert(err))
-  };
+    }, error => {
+      alert(error)
+    })
+  }
 
-  refreshBalance = () => {
-    this.MetaCoinService.GetBalance(this.account)
-      .subscribe(value => {
-        this.balance = value
-      }, e => {this.setStatus('Error getting balance; see log.')})
-  };
 
-  setStatus = message => {
-    this.status = message;
-  };
+  // refreshBalance = () => {
+  //   this.MetaCoinService.GetBalance(this.account)
+  //     .subscribe(value => {
+  //       this.balance = value
+  //     }, e => {this.setStatus('Error getting balance; see log.')})
+  // };
 
-  sendCoin = () => {
-    this.setStatus('Initiating transaction... (please wait)');
+  // setStatus = message => {
+  //   this.status = message;
+  // };
 
-    this.MetaCoinService.SendCoin(this.account, this.recipientAddress, this.sendingAmount)
-      .subscribe(() =>{
-        this.setStatus('Transaction complete!');
-        this.refreshBalance();
-      }, e => this.setStatus('Error sending coin; see log.'))
-  };
+  // sendCoin = () => {
+  //   this.setStatus('Initiating transaction... (please wait)');
+
+  //   this.MetaCoinService.SendCoin(this.account, this.recipientAddress, this.sendingAmount)
+  //     .subscribe(() =>{
+  //       this.setStatus('Transaction complete!');
+  //       this.refreshBalance();
+  //     }, e => this.setStatus('Error sending coin; see log.'))
+  // };
 }

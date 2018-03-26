@@ -1,6 +1,6 @@
 import { Component, HostListener, NgZone } from '@angular/core';
-
-import {Web3Service, MetaCoinService} from '../services/services'
+import { ActivatedRoute } from '@angular/router';
+// import {Web3Service, MetaCoinService} from '../services/services'
 
 import { canBeNumber } from '../util/validation';
 
@@ -19,6 +19,8 @@ export class AppComponent {
   recipientAddress: string;
   status: string;
   canBeNumber = canBeNumber;
+
+  ProfID: number;
 
   constructor(
     private _ngZone: NgZone,
