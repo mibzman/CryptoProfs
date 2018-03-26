@@ -3,7 +3,7 @@
 # compiled output
 /dist
 /tmp
-/build/contracts
+build
 
 # dependencies
 /node_modules
