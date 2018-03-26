@@ -19,7 +19,7 @@ export class Web3Service {
   constructor() { 
   	this.checkAndInstantiateWeb3();
 
-    this.GetAccounts().subscribe(accs => {
+    this.getAccounts().subscribe(accs => {
       this.Accounts = accs;
       this.Account = this.Accounts[0];
     })
