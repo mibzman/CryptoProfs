@@ -15,6 +15,8 @@ contract CryptoProfsMarket {
 
     uint public AmtEscrowed;
 
+    Bid NullBid;
+
     struct Offer {
         uint profId;
         address seller;
@@ -42,6 +44,11 @@ contract CryptoProfsMarket {
         _;
     }
 
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
     /* Initializes contract with initial supply tokens to the creator of the contract */
     function CryptoProfsMarket() public payable {
         owner = msg.sender;
@@ -49,7 +56,8 @@ contract CryptoProfsMarket {
         name = "CRYPTOProfs";            
         symbol = "Ͼ";        
         decimals = 0;        
-        AmtEscrowed = 0;        
+        AmtEscrowed = 0;   
+        NullBid = Bid(0x00, 0);     
     }
 
     function ClaimProf(uint _profId) 
@@ -69,16 +77,32 @@ contract CryptoProfsMarket {
 
         if (existing.value > 0) {
             // Refund the failing bid
-            var refund = existing.value - (existing.value / 5);
-            AmtEscrowed -= refund;
-            if(!existing.bidder.send(refund)) {
-                   revert();
-            }
+            sendFundsWithFee(existing.value, existing.bidder, 100);
         }
 
         ProfBids[_profId] = Bid(msg.sender, msg.value);
         AmtEscrowed += msg.value;
     }
 
+    function AcceptBid(uint _profId)
+    onlyOwnedBy(msg.sender, _profId) 
+    public {
+        //transfer prof
+        Bid storage existing = ProfBids[_profId];
+        profToOwner[_profId] = existing.bidder;
 
+        //trasfer funds
+        sendFundsWithFee(existing.value, msg.sender, 20);
+
+        //zero out bid
+        ProfBids[_profId] = NullBid;
+    }
+
+    function sendFundsWithFee(uint _value, address _to, uint fee) private {
+        var refund = _value - (_value / fee);
+        AmtEscrowed -= refund;
+        if(!_to.send(refund)) {
+               revert();
+        }
+    }
 }

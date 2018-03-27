@@ -62,6 +62,28 @@ export class CryptoProfService {
     })
   }
 
+  AcceptBid(ProfID: number): Observable<any>{
+    let profContract;
+    return Observable.create(observer => {
+      this.CryptoProf
+        .deployed()
+        .then(instance => {
+          profContract = instance;
+          return profContract.AcceptBid(ProfID, {
+            from: this.Web3Ser.Account
+          });
+        })
+        .then(() => {
+          observer.next()
+          observer.complete()
+        })
+        .catch(e => {
+          console.log(e);
+          observer.error(e)
+        });
+    })
+  }
+
   GetOwner(ProfID: number): Observable<any>{
     let profContract;
     return Observable.create(observer => {

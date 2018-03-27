@@ -81,27 +81,13 @@ export class ProfComponent{
     })
   }
 
-
-  // refreshBalance = () => {
-  //   this.MetaCoinService.GetBalance(this.account)
-  //     .subscribe(value => {
-  //       this.balance = value
-  //     }, e => {this.setStatus('Error getting balance; see log.')})
-  // };
-
-  // setStatus = message => {
-  //   this.status = message;
-  // };
-
-  // sendCoin = () => {
-  //   this.setStatus('Initiating transaction... (please wait)');
-
-  //   this.MetaCoinService.SendCoin(this.account, this.recipientAddress, this.sendingAmount)
-  //     .subscribe(() =>{
-  //       this.setStatus('Transaction complete!');
-  //       this.refreshBalance();
-  //     }, e => this.setStatus('Error sending coin; see log.'))
-  // };
+  Accept(){
+    this.CryptoProfSer.AcceptBid(this.ProfID).subscribe(() =>{
+      alert("you have accepted the bid")
+    }, error => {
+      alert(error)
+    })
+  }
 
   Claim() {
     this.CryptoProfSer.ClaimProf(this.ProfID)
