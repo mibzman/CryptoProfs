@@ -26,6 +26,8 @@ export class ProfComponent{
   NulAddr = '0x0000000000000000000000000000000000000000'
 
   ProfID: number;
+  CurrentBid: string = "None";
+
   BidAmount: number;
 
   ProfEmployer: any;
@@ -42,24 +44,42 @@ export class ProfComponent{
     this.ARouteSer.params.subscribe(params => {
        this.ProfID = params['ProfID'];
 
-       this.UpdateOwner()
+       this.Update()
     });
   }
 
-  UpdateOwner() {
+  Update() {
     this.CryptoProfSer.GetOwner(this.ProfID)
     .subscribe(result => {
-      this.ProfEmployer = result
+      console.log("updating: ", result)
+      if (result == this.Web3Ser.Account){
+        this.ProfEmployer = 'You'
+      } else if (result == this.NulAddr){
+        this.ProfEmployer = 'Nobody'
+      } 
+      else {
+        this.ProfEmployer = result
+      }
+    }, err => console.log(err))
+
+    this.CryptoProfSer.GetBid(this.ProfID)
+    .subscribe(result => {
+      var bidder = result[0]
+      if (bidder == this.Web3Ser.Account){
+        bidder = "You"
+      }
+      this.CurrentBid= `${bidder} bid ${result[1] / 1000000000000000000} ETH`
+      console.log(result)
     }, err => console.log(err))
   }
 
-  // Offer() {
-  //   this.CryptoProfService.MakeOffer(this.ProfID, this.BidAmount).subscribe(() =>{
-
-  //   }, error => {
-  //     alert(error)
-  //   })
-  // }
+  Bid() {
+    this.CryptoProfSer.BidProf(this.ProfID, this.BidAmount).subscribe(() =>{
+      alert("your bid has been submitted")
+    }, error => {
+      alert(error)
+    })
+  }
 
 
   // refreshBalance = () => {
@@ -86,7 +106,9 @@ export class ProfComponent{
   Claim() {
     this.CryptoProfSer.ClaimProf(this.ProfID)
     .subscribe(() => {
-      setTimeout(() => this.UpdateOwner, 10000)
+      setTimeout(function() {
+        this.Update
+      }, 5000)
     }, err => alert(err))
   }
 }
