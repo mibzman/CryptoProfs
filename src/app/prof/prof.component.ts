@@ -67,7 +67,12 @@ export class ProfComponent{
       var bidder = result[0]
       if (bidder == this.Web3Ser.Account){
         bidder = "You"
-      }
+      } 
+
+      if (bidder == this.NulAddr){
+        this.CurrentBid = 'None'
+        return
+      } 
       this.CurrentBid= `${bidder} bid ${result[1] / 1000000000000000000} ETH`
       console.log(result)
     }, err => console.log(err))

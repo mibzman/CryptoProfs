@@ -23,11 +23,11 @@
         <hr>
 
         <div *ngIf="ProfEmployer == 'Nobody'">
-          <a class="button is-primary" (click)="Claim()">Claim Prof</a>
+          <a class="button is-primary" (click)="Claim()">Hire Unemployed Prof for 0.0021ETH</a>
         </div>
 
         <div *ngIf="ProfEmployer == 'You'">
-          <a *ngIf="Bid != 'None'" class="button is-primary" (click)="Accept()">Accept Bid</a>
+          <a *ngIf="CurrentBid != 'None'" class="button is-primary" (click)="Accept()">Accept Offer</a>
         </div>
 
         <div *ngIf="(ProfEmployer != 'Nobody') && (ProfEmployer != 'You')">
