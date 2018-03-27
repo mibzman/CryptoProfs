@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+import {
+  CryptoProfService,
+  Web3Service
+} from '../../services/services'
+
 const MAX_PROFS = 15200
 const LOAD_NUM = 1000
 
@@ -13,9 +18,22 @@ export class HomeComponent implements OnInit {
 	DisplayProfs = []
 	Profs = Array.from(Array(MAX_PROFS).keys()) 
 
-  constructor() {
+  IsOwner: boolean
+
+  constructor(
+    private CryptoProfSer: CryptoProfService,
+    private Web3Ser: Web3Service,
+    ) {
   	this.Profs = this.Shuffle(this.Profs)
   	this.LoadMore()
+
+    CryptoProfSer.GetContractOwner().subscribe(
+      result => {
+        this.IsOwner = (result == Web3Ser.Account)
+    }, err => {
+      console.log(err)
+      this.IsOwner = false
+    })
    }
 
   Shuffle(a) {
@@ -34,6 +52,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  Withdraw(){
+    this.CryptoProfSer.Withdraw().subscribe()
   }
 
 }

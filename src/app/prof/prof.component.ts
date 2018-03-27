@@ -1,10 +1,11 @@
 import { Component, HostListener, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
-  CryptoProfService
+  CryptoProfService,
+  Web3Service
 } from '../../services/services'
 
-import { Web3Service } from './../../services/web3.service'
+// import { Web3Service } from './../../services/web3.service'
 
 import { canBeNumber } from '../../util/validation';
 

@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 contract CryptoProfsMarket {
 
-    address owner;
+    address public owner;
 
     string public standard = 'CryptoProfs';
     string public name;
@@ -102,13 +102,13 @@ contract CryptoProfsMarket {
 
     function sendFundsWithFee(uint _value, address _to, uint fee) private {
         var refund = _value - (_value / fee);
-        AmtEscrowed -= refund;
+        AmtEscrowed -= _value;
         if(!_to.send(refund)) {
                revert();
         }
     }
 
-    function withdrawFees() onlyOwner public {
+    function WithdrawFees() onlyOwner public {
         if(!owner.send(this.balance - AmtEscrowed)) {
                revert();
         }

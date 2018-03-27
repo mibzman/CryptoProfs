@@ -17,6 +17,28 @@ export class CryptoProfService {
   	this.CryptoProf.setProvider(Web3Ser.Web3.currentProvider);
   }
 
+  Withdraw(): Observable<any>{
+    let profContract;
+    return Observable.create(observer => {
+      this.CryptoProf
+        .deployed()
+        .then(instance => {
+          profContract = instance;
+          return profContract.WithdrawFees({
+            from: this.Web3Ser.Account
+          });
+        })
+        .then(() => {
+          observer.next()
+          observer.complete()
+        })
+        .catch(e => {
+          console.log(e);
+          observer.error(e)
+        });
+    })
+  }
+
   BidProf(ProfID: number, Amount: number): Observable<any>{
     let profContract;
     return Observable.create(observer => {
@@ -119,6 +141,27 @@ export class CryptoProfService {
         })
         .then((Bid: any) => {
           observer.next(Bid)
+          observer.complete()
+        })
+        .catch(e => {
+          observer.error(e)
+        });
+    })
+  }
+
+  GetContractOwner(): Observable<any>{
+    let profContract;
+    return Observable.create(observer => {
+      this.CryptoProf
+        .deployed()
+        .then(instance => {
+          profContract = instance;
+          return profContract.owner.call({
+            from: this.Web3Ser.Account
+          });
+        })
+        .then((Owner: any) => {
+          observer.next(Owner)
           observer.complete()
         })
         .catch(e => {

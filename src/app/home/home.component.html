@@ -6,6 +6,11 @@
       <h3 class="title">
         Faculty & Staff of the College of ETH
       </h3>
+
+      <div *ngIf="IsOwner">
+        <a class="button is-primary" (click)="Withdraw()">Withdraw</a>
+        <br>
+      </div>
   </div>
 </section>
 
