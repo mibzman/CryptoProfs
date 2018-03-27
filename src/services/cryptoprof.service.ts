@@ -13,8 +13,7 @@ export class CryptoProfService {
 
   constructor(
   	private Web3Ser: Web3Service,
-  	) { 
-  	// Bootstrap the MetaCoin abstraction for Use
+  	) {
   	this.CryptoProf.setProvider(Web3Ser.Web3.currentProvider);
   }
 
@@ -90,6 +89,28 @@ export class CryptoProfService {
   //     //   });
   //   })
   // }
+
+  ClaimProf(ProfID: number): Observable<any>{
+    let profContract;
+    return Observable.create(observer => {
+      this.CryptoProf
+        .deployed()
+        .then(instance => {
+          profContract = instance;
+          return profContract.ClaimProf(ProfID, {
+            from: this.Web3Ser.Account
+          });
+        })
+        .then(() => {
+          observer.next()
+          observer.complete()
+        })
+        .catch(e => {
+          console.log(e);
+          observer.error(e)
+        });
+    })
+  }
 
   GetOwner(ProfID: number): Observable<any>{
     let profContract;

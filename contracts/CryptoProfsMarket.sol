@@ -30,7 +30,7 @@ contract CryptoProfsMarket {
 	}    
 
     modifier onlyOwnedBy(address _requester, uint _profId) {
-    	require(profToOwner[_profId] != _requester);
+    	require(profToOwner[_profId] == _requester);
       	_;
     }
 
@@ -43,11 +43,11 @@ contract CryptoProfsMarket {
         decimals = 0;                
     }
 
-    // function GetProof(uint _profId) isRealProf(_profId) public view returns (address _owner) {
-    //     return 
-    // }
-
-    function ClaimProf(uint _profId) onlyOwnedBy(0x00, _profId) public {
+    function ClaimProf(uint _profId) 
+    onlyOwnedBy(0x00, _profId) 
+    public {
     	profToOwner[_profId] = msg.sender;
     }
+
+
 }

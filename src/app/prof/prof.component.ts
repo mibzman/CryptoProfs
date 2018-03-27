@@ -39,11 +39,15 @@ export class ProfComponent{
     this.ARouteSer.params.subscribe(params => {
        this.ProfID = params['ProfID'];
 
-       this.CryptoProfSer.GetOwner(this.ProfID)
-       .subscribe(result => {
-         this.ProfEmployer = result
-       }, err => console.log(err))
+       this.UpdateOwner()
     });
+  }
+
+  UpdateOwner() {
+    this.CryptoProfSer.GetOwner(this.ProfID)
+    .subscribe(result => {
+      this.ProfEmployer = result
+    }, err => console.log(err))
   }
 
   // Offer() {
@@ -75,4 +79,11 @@ export class ProfComponent{
   //       this.refreshBalance();
   //     }, e => this.setStatus('Error sending coin; see log.'))
   // };
+
+  Claim() {
+    this.CryptoProfSer.ClaimProf(this.ProfID)
+    .subscribe(() => {
+      setTimeout(() => this.UpdateOwner, 10000)
+    }, err => alert(err))
+  }
 }
