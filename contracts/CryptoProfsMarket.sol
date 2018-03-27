@@ -105,4 +105,10 @@ contract CryptoProfsMarket {
                revert();
         }
     }
+
+    function withdrawFees() onlyOwner public {
+        if(!owner.send(this.balance - AmtEscrowed)) {
+               revert();
+        }
+    }
 }
