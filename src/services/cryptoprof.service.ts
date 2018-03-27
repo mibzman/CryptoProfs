@@ -48,6 +48,7 @@ export class CryptoProfService {
         .then(instance => {
           profContract = instance;
           return profContract.ClaimProf(ProfID, {
+            value: "2146291208791208",
             from: this.Web3Ser.Account
           });
         })

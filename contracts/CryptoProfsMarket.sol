@@ -61,8 +61,10 @@ contract CryptoProfsMarket {
     }
 
     function ClaimProf(uint _profId) 
-    onlyOwnedBy(0x00, _profId) 
+    payable
+    onlyOwnedBy(0x00, _profId)
     public {
+        require(msg.value == 2146291208791208);
     	profToOwner[_profId] = msg.sender;
     }
 
