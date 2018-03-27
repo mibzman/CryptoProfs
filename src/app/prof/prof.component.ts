@@ -21,12 +21,16 @@ export class ProfComponent{
   status: string;
   canBeNumber = canBeNumber;
 
+  NulAddr = '0x0000000000000000000000000000000000000000'
+
   ProfID: number;
   BidAmount: number;
 
+  ProfEmployer: any;
+
   constructor(
     private _ngZone: NgZone,
-    private CryptoProfService: CryptoProfService,
+    private CryptoProfSer: CryptoProfService,
     private ARouteSer: ActivatedRoute,
     ) {
   }
@@ -34,16 +38,21 @@ export class ProfComponent{
   ngOnInit() {
     this.ARouteSer.params.subscribe(params => {
        this.ProfID = params['ProfID'];
+
+       this.CryptoProfSer.GetOwner(this.ProfID)
+       .subscribe(result => {
+         this.ProfEmployer = result
+       }, err => console.log(err))
     });
   }
 
-  Offer() {
-    this.CryptoProfService.MakeOffer(this.ProfID, this.BidAmount).subscribe(() =>{
+  // Offer() {
+  //   this.CryptoProfService.MakeOffer(this.ProfID, this.BidAmount).subscribe(() =>{
 
-    }, error => {
-      alert(error)
-    })
-  }
+  //   }, error => {
+  //     alert(error)
+  //   })
+  // }
 
 
   // refreshBalance = () => {

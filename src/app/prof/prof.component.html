@@ -18,13 +18,23 @@
     </div>
     <div class="row">
       <h2>
-        Offers:
-        <br>
+        Current Offer:
+        <div *ngIf="BidAmount == 0">
+          None
+        </div>
 
         <hr>
-        <input class="input is-primary" type="number" placeholder="Your Offer (ETH)" >
+        <div *ngIf="ProfEmployer != NulAddr">
+          <input class="input is-primary" type="number" placeholder="Your Offer (ETH)" >
 
-        <a class="button is-primary" (click)="Offer()">Make An Offer</a>
+          <a class="button is-primary" (click)="Offer()">Make An Offer</a>
+        </div>
+
+        <div *ngIf="ProfEmployer == NulAddr">
+          <!-- <input class="input is-primary" type="number" placeholder="Your Offer (ETH)" > -->
+
+          <a class="button is-primary" (click)="Claim()">Claim Prof</a>
+        </div>
       </h2>
     </div>
   </div>
