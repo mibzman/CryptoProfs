@@ -19,21 +19,26 @@
     <div class="row">
       <h2>
         Current Offer:
-        <div *ngIf="BidAmount == 0">
+        <div *ngIf="BidAmount == null">
           None
         </div>
 
         <hr>
-        <div *ngIf="ProfEmployer != NulAddr">
+
+        <div *ngIf="ProfEmployer == NulAddr">
+
+          <a class="button is-primary" (click)="Claim()">Claim Prof</a>
+        </div>
+
+        <div *ngIf="ProfEmployer == Web3Ser.Account">
+
+          <a class="button is-primary" (click)="Accept()">Accept Bid</a>
+        </div>
+
+        <div *ngIf="(ProfEmployer != NulAddr) && (ProfEmployer != Web3Ser.Account)">
           <input class="input is-primary" type="number" placeholder="Your Offer (ETH)" >
 
           <a class="button is-primary" (click)="Offer()">Make An Offer</a>
-        </div>
-
-        <div *ngIf="ProfEmployer == NulAddr">
-          <!-- <input class="input is-primary" type="number" placeholder="Your Offer (ETH)" > -->
-
-          <a class="button is-primary" (click)="Claim()">Claim Prof</a>
         </div>
       </h2>
     </div>

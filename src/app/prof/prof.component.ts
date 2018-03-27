@@ -4,6 +4,8 @@ import {
   CryptoProfService
 } from '../../services/services'
 
+import { Web3Service } from './../../services/web3.service'
+
 import { canBeNumber } from '../../util/validation';
 
 @Component({
@@ -31,6 +33,7 @@ export class ProfComponent{
   constructor(
     private _ngZone: NgZone,
     private CryptoProfSer: CryptoProfService,
+    private Web3Ser: Web3Service,
     private ARouteSer: ActivatedRoute,
     ) {
   }
